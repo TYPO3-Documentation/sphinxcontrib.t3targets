@@ -1,11 +1,83 @@
-# Build and Release Folders
-bin/
-bin-debug/
-bin-release/
+# ###
+# Begin Github proposals
+# ###
 
-# Other files and folders
-.settings/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# ###
+# End Github proposals
+# ###
+
+.idea
+*NOT_VERSIONED*
+
+# ###
+# TYPO3 v4
+# ###
+
+/fileadmin/user_upload/
+/fileadmin/_temp_/
+/uploads/
+/typo3conf/temp_CACHED*
+/typo3conf/temp_fieldInfo.php
+/typo3conf/localconf_local.php
+/typo3
+/t3lib
+/typo3temp/
+
+# ###
+# End
+# ###
