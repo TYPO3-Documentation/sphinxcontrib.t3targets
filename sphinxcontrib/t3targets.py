@@ -51,7 +51,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #       http://nullege.com/codes/search/docutils.nodes.reference
 
 from docutils import nodes
-from sphinx.util.compat import Directive
+try:
+    from sphinx.util.compat import Directive
+except ImportError:
+    from docutils.parsers.rst import Directive
+
 from operator import itemgetter
 import os
 
