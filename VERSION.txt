@@ -1,0 +1,9 @@
+0.3.0
+
+Update files:
+
+- VERSION.txt
+- setup.py
+- CHANGES.rst
+
+End.

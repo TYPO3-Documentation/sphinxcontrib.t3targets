@@ -12,6 +12,8 @@
 
 """
 
+from __future__ import absolute_import
+from six.moves import range
 __license__ = """
 
 If not otherwise noted, the extensions in this package are licensed
@@ -51,7 +53,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #       http://nullege.com/codes/search/docutils.nodes.reference
 
 from docutils import nodes
-from sphinx.util.compat import Directive
+try:
+    from sphinx.util.compat import Directive
+except ImportError:
+    from docutils.parsers.rst import Directive
+
 from operator import itemgetter
 import os
 
@@ -65,7 +71,7 @@ def getRelPath(srcdir, destpath):
     # Starting from the filepath root, work out how much of the filepath is
     # shared by base and target.
     for i in range(min(len(srclist), len(destlist))):
-        if srclist[i] <> destlist[i]:
+        if srclist[i] != destlist[i]:
             break
     else:
         # If we broke out of the loop, i is pointing to the first differing
@@ -143,18 +149,18 @@ def process_reftargetslist_nodes(app, doctree, fromdocname):
             classes=['ref-targets-list'])
         labels = env.domains['std'].data['labels']
         anonlabels = env.domains['std'].data['anonlabels']
-        for doc in sorted(etc.keys(), key=keyfunc):
-            relpath = getRelPath(srcdir, doc).replace('\\','/')
+        for doc in sorted(list(etc.keys()), key=keyfunc):
+            relpath = getRelPath(srcdir, doc).replace('\\', '/')
             relpath = os.path.splitext(relpath)[0] + '.html'
             rstrelpath = os.path.join('_sources', doc)
-            rstrelpath = getRelPath(srcdir, rstrelpath).replace('\\','/')
-            rstrelpath = os.path.splitext(rstrelpath)[0] + '.txt'
+            rstrelpath = getRelPath(srcdir, rstrelpath).replace('\\', '/')
+            rstrelpath = os.path.splitext(rstrelpath)[0] + '.rst.txt'
             bullet_list = nodes.bullet_list(rawsource='', bullet='-')
             for lineno, refid in sorted(etc[doc], key=itemgetter(0)):
-                if labels.has_key(refid):
+                if refid in labels:
                     flag = 'label'
                     cntLabels += 1
-                elif anonlabels.has_key(refid):
+                elif refid in anonlabels:
                     flag = 'anonlabel'
                     cntAnonLabels += 1
                 else:
@@ -244,10 +250,10 @@ def doctreeRead(app, doctree):
     if not hasattr(env, 'ext_targets_cache'):
         env.ext_targets_cache = {}
     etc = env.ext_targets_cache
-    if not etc.has_key(docname):
+    if docname not in etc:
         etc[docname] = []
     for node in doctree.traverse(nodes.target):
-        if node.attributes.has_key('refid'):
+        if 'refid' in node.attributes:
             etc[docname].append((node.line, node.attributes['refid']))
 
 def setup(app):
