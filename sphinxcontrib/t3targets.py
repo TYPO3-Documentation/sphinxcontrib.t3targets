@@ -150,11 +150,11 @@ def process_reftargetslist_nodes(app, doctree, fromdocname):
         labels = env.domains['std'].data['labels']
         anonlabels = env.domains['std'].data['anonlabels']
         for doc in sorted(list(etc.keys()), key=keyfunc):
-            relpath = getRelPath(srcdir, doc).replace('\\','/')
+            relpath = getRelPath(srcdir, doc).replace('\\', '/')
             relpath = os.path.splitext(relpath)[0] + '.html'
             rstrelpath = os.path.join('_sources', doc)
-            rstrelpath = getRelPath(srcdir, rstrelpath).replace('\\','/')
-            rstrelpath = os.path.splitext(rstrelpath)[0] + '.txt'
+            rstrelpath = getRelPath(srcdir, rstrelpath).replace('\\', '/')
+            rstrelpath = os.path.splitext(rstrelpath)[0] + '.rst.txt'
             bullet_list = nodes.bullet_list(rawsource='', bullet='-')
             for lineno, refid in sorted(etc[doc], key=itemgetter(0)):
                 if refid in labels:
