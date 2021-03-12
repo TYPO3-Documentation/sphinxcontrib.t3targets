@@ -61,6 +61,10 @@ except ImportError:
 from operator import itemgetter
 import os
 
+
+__version__ = 'v0.3.1'
+
+
 def getRelPath(srcdir, destpath):
     # srcdir = 'a/b/c'
     # destpath = 'a/b/d/x.html'
@@ -268,3 +272,9 @@ def setup(app):
     app.add_directive('ref-targets-list', RefTargetsList)
     app.connect('doctree-read', doctreeRead)
     app.connect('doctree-resolved', process_reftargetslist_nodes)
+
+    return {
+            "parallel_read_safe": True,
+            "parallel_write_safe": True,
+            "version": __version__,
+        }
