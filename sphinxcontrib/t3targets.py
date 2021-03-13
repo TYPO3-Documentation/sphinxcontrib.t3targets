@@ -62,7 +62,14 @@ from operator import itemgetter
 import os
 
 
-__version__ = 'v0.3.1'
+__version__ = 'v0.3.2'
+
+# This will be our cache for a single Sphinx run
+# It's empty at the beginning and filled at doctree-read.
+# After that it will not be emptied.
+class Cache:
+
+    t3targets = {}
 
 
 def getRelPath(srcdir, destpath):
@@ -141,8 +148,6 @@ def keyfunc(item):
     return '/'.join(itemlist)
 
 def process_reftargetslist_nodes(app, doctree, fromdocname):
-    env = app.builder.env
-    etc = env.ext_targets_cache
     cntLabels = 0
     cntAnonLabels = 0
     for node in doctree.traverse(reftargetslist_node):
@@ -153,14 +158,14 @@ def process_reftargetslist_nodes(app, doctree, fromdocname):
             classes=['ref-targets-list'])
         labels = env.domains['std'].data['labels']
         anonlabels = env.domains['std'].data['anonlabels']
-        for doc in sorted(list(etc.keys()), key=keyfunc):
+        for doc in sorted(list(Cache.t3targets.keys()), key=keyfunc):
             relpath = getRelPath(srcdir, doc).replace('\\', '/')
             relpath = os.path.splitext(relpath)[0] + '.html'
             rstrelpath = os.path.join('_sources', doc)
             rstrelpath = getRelPath(srcdir, rstrelpath).replace('\\', '/')
             rstrelpath = os.path.splitext(rstrelpath)[0] + '.rst.txt'
             bullet_list = nodes.bullet_list(rawsource='', bullet='-')
-            for lineno, refid in sorted(etc[doc], key=itemgetter(0)):
+            for lineno, refid in sorted(Cache.t3targets[doc], key=itemgetter(0)):
                 if refid in labels:
                     flag = 'label'
                     cntLabels += 1
@@ -249,16 +254,12 @@ def depart_reftargetslist_node(self, node):
 ##build-finished(app, exception)
 
 def doctreeRead(app, doctree):
-    env = app.builder.env
-    docname = env.docname
-    if not hasattr(env, 'ext_targets_cache'):
-        env.ext_targets_cache = {}
-    etc = env.ext_targets_cache
-    if docname not in etc:
-        etc[docname] = []
+    docname = app.builder.env.docname
+    if docname not in Cache.t3targets:
+        Cache.t3targets[docname] = []
     for node in doctree.traverse(nodes.target):
         if 'refid' in node.attributes:
-            etc[docname].append((node.line, node.attributes['refid']))
+            Cache.t3targets[docname].append((node.line, node.attributes['refid']))
 
 def setup(app):
     app.add_node(

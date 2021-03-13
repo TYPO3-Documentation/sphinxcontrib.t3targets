@@ -1,3 +1,9 @@
+Release v0.3.2  2021-03-13
+===========================
+
+*  Bugfix release. Prior version don't work with parallel.
+
+
 Release v0.3.1  2021-03-12
 ===========================
 
