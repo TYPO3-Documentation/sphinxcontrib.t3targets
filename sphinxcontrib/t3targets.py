@@ -62,7 +62,7 @@ from operator import itemgetter
 import os
 
 
-__version__ = 'v0.3.2'
+__version__ = 'v0.3.3'
 
 # This will be our cache for a single Sphinx run
 # It's empty at the beginning and filled at doctree-read.
@@ -156,8 +156,8 @@ def process_reftargetslist_nodes(app, doctree, fromdocname):
         srcdir = os.path.split(node.astext())[0]
         definition_list = nodes.definition_list(
             classes=['ref-targets-list'])
-        labels = env.domains['std'].data['labels']
-        anonlabels = env.domains['std'].data['anonlabels']
+        labels = Cache.t3targets.domains['std'].data['labels']
+        anonlabels = Cache.t3targets.domains['std'].data['anonlabels']
         for doc in sorted(list(Cache.t3targets.keys()), key=keyfunc):
             relpath = getRelPath(srcdir, doc).replace('\\', '/')
             relpath = os.path.splitext(relpath)[0] + '.html'
