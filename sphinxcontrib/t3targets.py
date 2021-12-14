@@ -62,7 +62,7 @@ from operator import itemgetter
 import os
 
 
-__version__ = 'v0.3.4'
+__version__ = 'v0.3.5'
 
 # This will be our cache for a single Sphinx run
 # It's empty at the beginning and filled at doctree-read.
@@ -276,7 +276,7 @@ def setup(app):
     app.connect('doctree-resolved', process_reftargetslist_nodes)
 
     return {
-            "parallel_read_safe": True,
+            "parallel_read_safe": False,
             "parallel_write_safe": True,
             "version": __version__,
         }
